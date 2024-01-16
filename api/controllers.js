@@ -1,7 +1,13 @@
 const accounts = require("../accounts");
+const Account = require("../models/Account");
 
-const getAllAccounts = (req, res) => {
-  return res.status(200).json(accounts);
+const getAllAccounts = async (req, res) => {
+  try {
+    const accounts = await Account.find();
+    return res.status(200).json(accounts);
+  } catch (error) {
+    return res.status(500).json("bad Server");
+  }
 };
 
 const addNewAccount = (req, res) => {
