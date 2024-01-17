@@ -4,13 +4,16 @@ const {
   getAllAccounts,
   updateAccountById,
   deleteAccountById,
+  createAccount,
+  delById,
+  findById,
 } = require("./controllers");
 const router = express.Router();
-
+router.get("/:id", findById);
 router.get("/", getAllAccounts);
-router.post("/", addNewAccount);
+router.post("/", createAccount);
 
-router.delete("/:id", deleteAccountById);
+router.delete("/:id", delById);
 
 router.put("/:id", updateAccountById);
 
