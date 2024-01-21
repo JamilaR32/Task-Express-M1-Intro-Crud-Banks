@@ -1,12 +1,13 @@
 const accounts = require("../accounts");
 const Account = require("../models/Account");
 
-const getAllAccounts = async (req, res) => {
+const getAllAccounts = async (req, res, next) => {
   try {
-    const accounts = await Account.find();
+    const accounts = await Account.findd();
     return res.status(200).json(accounts);
   } catch (error) {
-    return res.status(500).json("bad Server");
+    // return res.status(500).json("bad Server");
+    next(error);
   }
 };
 
@@ -21,7 +22,7 @@ const getAllAccounts = async (req, res) => {
 //   return res.status(200).json(newAccount);
 // };
 
-const createAccount = async (req, res) => {
+const createAccount = async (req, res, next) => {
   try {
     const account = req.body;
 
@@ -30,7 +31,8 @@ const createAccount = async (req, res) => {
     console.log(account);
     return res.status(201).json(account);
   } catch (error) {
-    return res.status(500).json("bad Server", error);
+    // return res.status(500).json("bad Server", error);
+    next(error);
   }
 };
 // const deleteAccountById = (req, res) => {
@@ -65,35 +67,39 @@ const createAccount = async (req, res) => {
 //       res.status(200).json(account);
 //   }
 // };
-const updateAccountById = async (req, res) => {
+const updateAccountById = async (req, res, next) => {
   try {
     const id = req.params.id;
     await Account.findByIdAndUpdate(id, req.body);
     res.status(204).end();
   } catch (error) {
-    return res.status(500).json("bad Server", error);
+    // return res.status(500).json("bad Server", error);
+    next(error);
   }
 };
 
-const delById = async (req, res) => {
+const delById = async (req, res, next) => {
   try {
     const id = req.params.id;
     await Account.findByIdAndDelete(id, req.body);
     res.status(200).json("Deleted");
   } catch (error) {
-    return res.status(500).json("bad Server", error);
+    // return res.status(500).json("bad Server", error);
+    next(error);
   }
 };
 
-const findById = async (req, res) => {
+const findById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const accountGetted = await Account.findById(id);
     return res.status(200).json(accountGetted);
   } catch (error) {
-    return res.status(500).json("bad Server", error);
+    next(error);
+    // return res.status(500).json("bad Server", error);
   }
 };
+
 module.exports = {
   createAccount,
   // addNewAccount,
