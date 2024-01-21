@@ -1,9 +1,10 @@
 const accounts = require("../accounts");
 const Account = require("../models/Account");
 
+//we use middleware function to make our functions shorter by fetching it with id
 const getAllAccounts = async (req, res, next) => {
   try {
-    const accounts = await Account.findd();
+    const accounts = await Account.find();
     return res.status(200).json(accounts);
   } catch (error) {
     // return res.status(500).json("bad Server");
@@ -67,10 +68,11 @@ const createAccount = async (req, res, next) => {
 //       res.status(200).json(account);
 //   }
 // };
+
+//update using shorter functions
 const updateAccountById = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    await Account.findByIdAndUpdate(id, req.body);
+    await req.account.updateOne(req.body);
     res.status(204).end();
   } catch (error) {
     // return res.status(500).json("bad Server", error);
@@ -78,10 +80,21 @@ const updateAccountById = async (req, res, next) => {
   }
 };
 
+// const delById = async (req, res, next) => {
+//   try {
+//     const id = req.params.id;
+//     await Account.findByIdAndDelete(id, req.body);
+//     res.status(200).json("Deleted");
+//   } catch (error) {
+//     // return res.status(500).json("bad Server", error);
+//     next(error);
+//   }
+// };
+
+//dellete using shorter functions
 const delById = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    await Account.findByIdAndDelete(id, req.body);
+    await req.account.deleteOne(req.body);
     res.status(200).json("Deleted");
   } catch (error) {
     // return res.status(500).json("bad Server", error);
@@ -89,17 +102,27 @@ const delById = async (req, res, next) => {
   }
 };
 
+// const findById = async (req, res, next) => {
+//   try {
+//     const id = req.params.id;
+//     const accountGetted = await Account.findById(id);
+//     return res.status(200).json(accountGetted);
+//   } catch (error) {
+//     next(error);
+//     // return res.status(500).json("bad Server", error);
+//   }
+// };
+
+//find by id shorter function
 const findById = async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const accountGetted = await Account.findById(id);
+    const accountGetted = await req.account;
     return res.status(200).json(accountGetted);
   } catch (error) {
     next(error);
     // return res.status(500).json("bad Server", error);
   }
 };
-
 module.exports = {
   createAccount,
   // addNewAccount,
